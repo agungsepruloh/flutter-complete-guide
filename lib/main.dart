@@ -2,55 +2,52 @@ import 'package:flutter/material.dart';
 
 import './quiz.dart';
 import './result.dart';
+// void main() {
+//   runApp(MyApp());
+// }
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _MyAppState();
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _MyAppState();
+  }
 }
 
 class _MyAppState extends State<MyApp> {
-  int _questionIndex = 0;
-  int _totalScore = 0;
-
   final _questions = const [
-    // using map class for questions and answers
     {
-      'questionText': 'What is your favorite color?',
+      'questionText': 'What\'s your favorite color?',
       'answers': [
-        {'text': 'Black', 'score': 7},
-        {'text': 'White', 'score': 8},
-        {'text': 'Green', 'score': 9},
-        {'text': 'Blue', 'score': 10}
+        {'text': 'Black', 'score': 10},
+        {'text': 'Red', 'score': 5},
+        {'text': 'Green', 'score': 3},
+        {'text': 'White', 'score': 1},
       ],
     },
     {
-      'questionText': 'What is your favorite animal?',
+      'questionText': 'What\'s your favorite animal?',
       'answers': [
-        {'text': 'Rabbit', 'score': 8},
-        {'text': 'Snake', 'score': 9},
+        {'text': 'Rabbit', 'score': 3},
+        {'text': 'Snake', 'score': 11},
+        {'text': 'Elephant', 'score': 5},
         {'text': 'Lion', 'score': 9},
-        {'text': 'Turtle', 'score': 10}
       ],
     },
     {
-      'questionText': 'What is your favorite drink?',
+      'questionText': 'Who\'s your favorite instructor?',
       'answers': [
-        {'text': 'Milk', 'score': 10},
-        {'text': 'Coffee', 'score': 8},
-        {'text': 'Chocolate', 'score': 9},
-        {'text': 'Honey', 'score': 10}
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
+        {'text': 'Max', 'score': 1},
       ],
     },
   ];
-
-  void _answerQuestion(int score) {
-    setState(() {
-      _questionIndex++;
-      _totalScore += score;
-    });
-  }
+  var _questionIndex = 0;
+  var _totalScore = 0;
 
   void _resetQuiz() {
     setState(() {
@@ -59,20 +56,46 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _answerQuestion(int score) {
+    // var aBool = true;
+    // aBool = false;
+
+    _totalScore += score;
+
+    setState(() {
+      _questionIndex = _questionIndex + 1;
+    });
+    // print(_questionIndex);
+    // print(_questions[_questionIndex]);
+    print(_questionIndex);
+    if (_questionIndex < _questions.length) {
+      print('We have more questions!');
+    } else {
+      print('No more questions!');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    // var dummy = const ['Hello'];
+    // dummy.add('Max');
+    // print(dummy);
+    // dummy = [];
+    // questions = []; // does not work if questions is a const
+
     return MaterialApp(
       home: Scaffold(
-          appBar: AppBar(
-            title: Text('This is My Fisrt App'),
-          ),
-          body: _questionIndex < _questions.length
-              ? Quiz(
-                  questions: _questions,
-                  questionIndex: _questionIndex,
-                  answerQuestion: _answerQuestion,
-                )
-              : Result(_totalScore, _resetQuiz)),
+        appBar: AppBar(
+          title: Text('My First App'),
+        ),
+        body: _questionIndex < _questions.length
+            ? Quiz(
+                answerQuestion: _answerQuestion,
+                questionIndex: _questionIndex,
+                questions: _questions,
+              )
+            : Result(_totalScore, _resetQuiz),
+      ),
     );
   }
 }
